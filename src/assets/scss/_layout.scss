@@ -1,0 +1,85 @@
+@use "./mixins" as *;
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.marketplace {
+  position: relative;
+  padding: rem(30);
+  width: 100%;
+  height: 100vh;
+  color: #fff;
+  background: #0a0c12;
+  display: flex;
+  align-items: flex-start;
+  gap: rem(40);
+
+  --primary: #5fd8df;
+  --background: #12141a;
+  --text-muted: #505564;
+  --transition-ease: 0.25s ease-in-out;
+}
+
+.marketplace * {
+  margin: 0;
+  padding: 0;
+  font-family: "Gilroy", sans-serif;
+  box-sizing: border-box;
+}
+
+.marketplace a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.marketplace input,
+.marketplace textarea,
+.marketplace button,
+.marketplace select {
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.marketplace > .page {
+  flex-grow: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: rem(30);
+}
+
+/* Page transition animation */
+.default-transition-enter-active {
+  animation: fade-in 0.3s ease-out;
+}
+
+.default-transition-leave-active {
+  animation: fade-out 0.3s ease-in;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
