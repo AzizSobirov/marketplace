@@ -41,7 +41,16 @@ const routes = [
           title: "Склад хранения",
           desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
         },
-        component: () => import("../views/Warehouse2.vue"),
+        component: () => import("../views/Warehouse2/index.vue"),
+      },
+      {
+        path: "warehouse2/create",
+        name: "warehouse2-create",
+        meta: {
+          title: "Опубликовать объявление",
+          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
+        },
+        component: () => import("../views/Warehouse2/create.vue"),
       },
 
       {
@@ -69,7 +78,25 @@ const routes = [
           title: "Аукционы",
           desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
         },
-        component: () => import("../views/Auctions.vue"),
+        component: () => import("../views/Auctions/index.vue"),
+      },
+      {
+        path: "auctions/:id",
+        name: "auctions-info",
+        meta: {
+          title: "Аукционы",
+          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
+        },
+        component: () => import("../views/Auctions/[id].vue"),
+      },
+      {
+        path: "auctions/create",
+        name: "auctions-create",
+        meta: {
+          title: "Аукционы",
+          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
+        },
+        component: () => import("../views/Auctions/create.vue"),
       },
     ],
   },

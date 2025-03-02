@@ -7,7 +7,12 @@
     />
 
     <div class="products">
-      <div v-for="i in 15" :key="i" class="product">
+      <div
+        v-for="i in 15"
+        :key="i"
+        class="product"
+        @click="$router.push('/auctions/1')"
+      >
         <div class="product__status">
           <div class="product__status-icon">
             <svg

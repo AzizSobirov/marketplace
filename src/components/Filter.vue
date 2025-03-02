@@ -109,7 +109,7 @@
       </div>
     </div>
 
-    <div class="filter__btn">
+    <router-link :to="`${this.$route.path}/create`" class="filter__btn">
       <svg
         width="10"
         height="10"
@@ -127,7 +127,7 @@
       </svg>
 
       <span> Создать</span>
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -205,8 +205,8 @@ export default {
     cursor: pointer;
 
     svg {
-      width: rem(14);
-      height: rem(14);
+      width: rem(13);
+      height: rem(13);
     }
 
     span {
@@ -215,7 +215,7 @@ export default {
     }
 
     &:hover {
-      color: #fff;
+      color: #12141a;
       background: var(--primary);
     }
   }

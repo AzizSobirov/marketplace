@@ -25,7 +25,7 @@
           </div>
 
           <div class="product__img">
-            <img src="@/assets/img/products/1.png" alt="" />
+            <img src="@/assets/img/products/3.png" alt="" />
           </div>
 
           <div class="product__info">
@@ -129,80 +129,17 @@
                 />
               </svg>
             </div>
-            <span>Добавить лот на продажу</span>
-          </div>
-
-          <div class="product__warn">
-            <div class="product__warn-title">
-              <div class="product__warn-icon">
-                <svg
-                  width="23"
-                  height="23"
-                  viewBox="0 0 23 23"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11.4225 8.65613H11.4319M10.4792 11.4858H11.4225V15.2587H12.3657"
-                    stroke="white"
-                    stroke-width="1.88646"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <span>Информация</span>
-            </div>
-            <p class="product__warn-desc">
-              Если предмет отсутствует у вас на вашем складе, Вы можете
-              выставить лот на торговую площадку, приобретите этот товар
-            </p>
+            <span>Сделать ставку</span>
           </div>
         </div>
       </div>
 
       <div class="col">
         <div class="title">Список товара</div>
+      </div>
 
-        <div class="table">
-          <div class="table__body">
-            <table>
-              <thead>
-                <tr>
-                  <th>№</th>
-                  <th>Статич. ID</th>
-                  <th>Имя игрока</th>
-                  <th>Состояние</th>
-                  <th>Количество</th>
-                  <th>Стоимость за шт.</th>
-                  <th>Таймер</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="i in 15" :key="i">
-                  <td>№ {{ i }}</td>
-                  <td>#123123</td>
-                  <td>
-                    <div class="user">
-                      <div class="user__avatar">
-                        <img src="@/assets/img/avatar.png" alt="" />
-                      </div>
-                      <div class="user__name">Source Insensitive</div>
-                    </div>
-                  </td>
-                  <td>Отличное (96%)</td>
-                  <td>123123</td>
-                  <td>$ 5,000,000</td>
-                  <td>13 ч. 15 м.</td>
-                  <td>
-                    <div class="btn"><span>Купить</span></div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="col">
+        <div class="title">Список товара</div>
       </div>
 
       <div class="col">
@@ -423,7 +360,11 @@ export default {
     flex-basis: rem(460);
   }
   &:nth-child(2) {
-    flex-basis: rem(1000);
+    flex-basis: rem(560);
+  }
+
+  &:last-child {
+    flex-basis: 100%;
   }
 }
 
@@ -473,10 +414,9 @@ export default {
     position: relative;
     margin-top: rem(-24);
     margin-left: rem(-24);
-    padding: rem(10);
     width: calc(100% + rem(48));
-    min-height: rem(185);
-    height: rem(185);
+    min-height: rem(205);
+    height: rem(205);
     background: #15171e;
     border-radius: rem(10);
     display: flex;
@@ -484,11 +424,11 @@ export default {
     justify-content: center;
 
     img {
-      min-height: rem(95);
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       object-position: center;
+      border-radius: inherit;
     }
   }
 
@@ -660,119 +600,6 @@ export default {
       font-size: rem(14);
       line-height: 170%;
       color: #5d6374;
-    }
-  }
-}
-
-.table {
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: rem(20);
-
-  &__body {
-    height: rem(650);
-    width: 100%;
-    overflow: auto;
-
-    &::-webkit-scrollbar {
-      width: rem(5);
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: rem(10);
-    }
-
-    tbody tr:nth-child(odd) {
-      background: linear-gradient(90deg, #101217 0%, rgba(16, 18, 23, 0) 100%);
-    }
-  }
-
-  table {
-    width: 100%;
-    text-align: center;
-    border-collapse: collapse;
-
-    thead {
-      position: sticky;
-      top: 0;
-      background: #0a0c12;
-    }
-
-    th {
-      padding: 0 rem(5) rem(20);
-      font-weight: 500;
-      font-size: rem(12);
-      color: #3f4450;
-    }
-
-    td {
-      padding: rem(10) rem(5);
-      font-weight: 600;
-      font-size: rem(14);
-      text-align: center;
-      color: #fff;
-
-      &:last-child {
-        width: rem(140);
-      }
-    }
-  }
-
-  .user {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: rem(10);
-
-    &-avatar {
-      min-width: rem(40);
-      min-height: rem(40);
-      width: rem(40);
-      height: rem(40);
-      border-radius: 50%;
-
-      img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-      }
-    }
-
-    &-name {
-      font-weight: 600;
-      font-size: rem(14);
-      color: #fff;
-    }
-  }
-
-  .btn {
-    border-radius: rem(10);
-    width: rem(118);
-    height: rem(40);
-    background: #181a21;
-    transition: var(--transition-ease);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-
-    span {
-      font-weight: 500;
-      font-size: rem(12);
-      color: #7a819c;
-    }
-
-    &:hover {
-      background: var(--primary);
-      color: #12141a;
     }
   }
 }
