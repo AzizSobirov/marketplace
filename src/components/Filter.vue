@@ -86,7 +86,7 @@
         </svg>
       </div>
       <select @change="$emit('changeSort', $event.target.value)">
-        <option value="">Выбор категории</option>
+        <option value="">Сортировать</option>
         <option value="1">1</option>
         <option value="2">2</option>
       </select>
@@ -172,7 +172,7 @@ export default {
     grid-column-start: span 2;
 
     input {
-      color: #3f4450;
+      color: #fff;
 
       &::placeholder {
         color: #3f4450;

@@ -402,6 +402,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 import LineChart from "@/components/LineChart.vue";
 import avatar from "@/assets/img/avatar.png";
 

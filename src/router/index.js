@@ -16,6 +16,26 @@ const routes = [
         },
         component: () => import("../views/Empty.vue"),
       },
+    
+      {
+        path: "favourites",
+        name: "favourites",
+        meta: {
+          title: "Склад хранения",
+          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
+        },
+        component: () => import("../views/Favourites/index.vue"),
+      },
+      {
+        path: "favourites/:id",
+        name: "favourites-id",
+        meta: {
+          title: "Склад хранения",
+          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
+        },
+        component: () => import("../views/Favourites/[id].vue"),
+      },
+
       {
         path: "warehouse",
         name: "warehouse",
@@ -25,33 +45,6 @@ const routes = [
         },
         component: () => import("../views/Warehouse/index.vue"),
       },
-      {
-        path: "warehouse/:id",
-        name: "warehouse-id",
-        meta: {
-          title: "Склад хранения",
-          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
-        },
-        component: () => import("../views/Warehouse/[id].vue"),
-      },
-      {
-        path: "warehouse2",
-        name: "warehouse2",
-        meta: {
-          title: "Склад хранения",
-          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
-        },
-        component: () => import("../views/Warehouse2/index.vue"),
-      },
-      {
-        path: "warehouse2/create",
-        name: "warehouse2-create",
-        meta: {
-          title: "Опубликовать объявление",
-          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
-        },
-        component: () => import("../views/Warehouse2/create.vue"),
-      },
 
       {
         path: "announcements",
@@ -60,8 +53,18 @@ const routes = [
           title: "Мои объявления",
           desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
         },
-        component: () => import("../views/Announcements.vue"),
+        component: () => import("../views/Announcements/index.vue"),
       },
+      {
+        path: "announcements/create",
+        name: "announcements-create",
+        meta: {
+          title: "Опубликовать объявление",
+          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
+        },
+        component: () => import("../views/Announcements/create.vue"),
+      },
+
       {
         path: "history",
         name: "history",
@@ -71,6 +74,7 @@ const routes = [
         },
         component: () => import("../views/History.vue"),
       },
+     
       {
         path: "auctions",
         name: "auctions",
@@ -81,15 +85,6 @@ const routes = [
         component: () => import("../views/Auctions/index.vue"),
       },
       {
-        path: "auctions/:id",
-        name: "auctions-info",
-        meta: {
-          title: "Аукционы",
-          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
-        },
-        component: () => import("../views/Auctions/[id].vue"),
-      },
-      {
         path: "auctions/create",
         name: "auctions-create",
         meta: {
@@ -97,6 +92,15 @@ const routes = [
           desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
         },
         component: () => import("../views/Auctions/create.vue"),
+      },
+      {
+        path: "auctions/:id",
+        name: "auctions-info",
+        meta: {
+          title: "Аукционы",
+          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
+        },
+        component: () => import("../views/Auctions/[id].vue"),
       },
     ],
   },

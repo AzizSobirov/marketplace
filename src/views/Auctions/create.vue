@@ -1,26 +1,38 @@
 <template>
   <div class="content">
-    <div class="wrapper">
+    <form class="wrapper" @submit.prevent="handleSubmit">
       <div class="col">
         <div class="group">
           <div class="item">
             <div class="subtitle">Стандартная обложка</div>
-            <FileUpload @change="fileChange" />
+            <FileUpload
+              @change="
+                (file) => {
+                  standard_cover = file;
+                }
+              "
+            />
           </div>
           <div class="item">
             <div class="subtitle">Собственная обложка</div>
-            <FileUpload @change="fileChange" />
+            <FileUpload
+              @change="
+                (file) => {
+                  own_cover = file;
+                }
+              "
+            />
           </div>
         </div>
 
         <div class="item">
           <div class="subtitle">Загруженные фотографии</div>
           <div class="files">
-            <FileUpload size="sm" @change="fileChange" />
-            <FileUpload size="sm" @change="fileChange" />
-            <FileUpload size="sm" @change="fileChange" />
-            <FileUpload size="sm" @change="fileChange" />
-            <FileUpload size="sm" @change="fileChange" />
+            <FileUpload size="sm" @change="(file) => fileChange(file, 0)" />
+            <FileUpload size="sm" @change="(file) => fileChange(file, 1)" />
+            <FileUpload size="sm" @change="(file) => fileChange(file, 2)" />
+            <FileUpload size="sm" @change="(file) => fileChange(file, 3)" />
+            <FileUpload size="sm" @change="(file) => fileChange(file, 4)" />
           </div>
         </div>
 
@@ -28,14 +40,22 @@
           <div class="title">Заголовок объявления</div>
 
           <div class="input">
-            <input type="text" placeholder="Введите текст..." />
+            <input
+              type="text"
+              v-model="title"
+              placeholder="Введите текст..."
+              required
+            />
           </div>
         </div>
 
         <div class="item">
           <div class="title">Описание</div>
           <div class="textarea">
-            <textarea placeholder="Введите текст..."></textarea>
+            <textarea
+              v-model="description"
+              placeholder="Введите текст..."
+            ></textarea>
           </div>
         </div>
 
@@ -43,7 +63,12 @@
           <div class="title">Стоимость продажи</div>
 
           <div class="input">
-            <input type="text" placeholder="Введите текст..." />
+            <input
+              type="text"
+              v-model="price"
+              placeholder="Введите текст..."
+              required
+            />
             <span>Мин. стоимость по рынку: $ 5,000,000</span>
           </div>
         </div>
@@ -73,18 +98,17 @@
           </div>
 
           <div class="product__img">
-            <img src="@/assets/img/products/3.png" alt="" />
+            <img :src="fileToURL(standard_cover)" alt="" />
           </div>
 
           <div class="product__info">
             <div class="product__info-category">Категория товара</div>
-            <div class="product__info-title">Хранилище данных - 16 ТБ</div>
+            <div class="product__info-title">{{ title }}</div>
           </div>
 
           <div class="product__info">
             <div class="product__info-category">
-              На этом жестком диске хранятся зашифрованные данные, которые Вы
-              можете передать или продать
+              {{ description }}
             </div>
           </div>
 
@@ -158,11 +182,11 @@
                   />
                 </svg>
               </div>
-              <span>200 300 3333 333</span>
+              <span>{{ price }}</span>
             </div>
           </div>
 
-          <div class="product__btn"><span>Выгрузить со склада</span></div>
+          <div class="product__btn"><span>Кнопка</span></div>
         </div>
 
         <div class="details">
@@ -195,7 +219,7 @@
             </p>
           </div>
 
-          <div class="details__btn">
+          <button type="submit" class="details__btn">
             <div class="details__btn-icon">
               <svg
                 width="14"
@@ -214,25 +238,52 @@
               </svg>
             </div>
             <span>Опубликовать объявление</span>
-          </div>
+          </button>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 import FileUpload from "@/components/FileUpload.vue";
 
 export default {
   name: "CreateWarehouse",
   components: { FileUpload },
   data() {
-    return {};
+    return {
+      standard_cover: null,
+      own_cover: null,
+      files: [],
+      title: null,
+      description: null,
+      price: null,
+    };
   },
   methods: {
-    fileChange(file) {
-      console.log(file);
+    ...mapMutations(["addProductToAuctions"]),
+    fileToURL(file) {
+      if (!file) return null;
+      return URL.createObjectURL(file);
+    },
+    fileChange(file, index) {
+      const fileExist = this.files.find((f) => f.id === index);
+      if (!fileExist) this.files.push({ id: index, file });
+      this.files[index] = { id: index, file: this.fileToURL(file) };
+    },
+
+    handleSubmit() {
+      this.addProductToAuctions({
+        standard_cover: this.fileToURL(this.standard_cover),
+        own_cover: this.fileToURL(this.own_cover),
+        files: this.files,
+        title: this.title,
+        description: this.description,
+        price: this.price,
+      });
+      this.$router.push("/auctions");
     },
   },
 };

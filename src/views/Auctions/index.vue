@@ -1,18 +1,13 @@
 <template>
   <div class="content">
     <TheFilter
-      @search="searchProducts"
-      @changeCategory="changeCategory"
-      @changeSort="changeSort"
+      @search="(value) => (search = value)"
+      @changeCategory="(value) => (category = value)"
+      @changeSort="(value) => (sort = value)"
     />
 
     <div class="products">
-      <div
-        v-for="i in 15"
-        :key="i"
-        class="product"
-        @click="$router.push('/auctions/1')"
-      >
+      <div v-for="product in getProducts" :key="product.id" class="product">
         <div class="product__status">
           <div class="product__status-icon">
             <svg
@@ -35,13 +30,17 @@
         </div>
 
         <div class="product__img">
-          <img src="@/assets/img/products/3.png" alt="" />
+          <img :src="product.standard_cover" alt="" />
         </div>
 
         <div class="product__info">
-          <div class="product__info-title">Особняк №123</div>
+          <div class="product__info-title">{{ product.title }}</div>
 
-          <div class="product__favourite">
+          <div
+            class="product__favourite"
+            :class="{ active: isExistsFavourites(product.id) }"
+            @click="toggleProductFavourites(product)"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -82,7 +81,7 @@
             </div>
             <div class="product__details-info">
               <div class="product__details-title">Улица</div>
-              <div class="product__details-value">Vinewood, Baker, Str 132</div>
+              <div class="product__details-value">{{ product.street }}</div>
             </div>
           </div>
 
@@ -118,7 +117,9 @@
             </div>
             <div class="product__details-info">
               <div class="product__details-title">Последняя ставка</div>
-              <div class="product__details-value">10,000,000 $</div>
+              <div class="product__details-value">
+                {{ formatPrice(product.price) }} $
+              </div>
             </div>
           </div>
 
@@ -144,7 +145,7 @@
               <div class="product__details-title">Лайки и просмотры</div>
               <div class="product__details-group">
                 <div class="product__like">
-                  <div class="product__like-count">100</div>
+                  <div class="product__like-count">{{ product.likes }}</div>
                   <div class="product__like-icon">
                     <svg
                       width="13"
@@ -173,7 +174,7 @@
                   </div>
                 </div>
                 <div class="product__like">
-                  <div class="product__like-count">100</div>
+                  <div class="product__like-count">{{ product.views }}</div>
                   <div class="product__like-icon">
                     <svg
                       width="13"
@@ -210,13 +211,19 @@
           </div>
         </div>
 
-        <div class="product__btn"><span>Участвовать в аукционе</span></div>
+        <div
+          class="product__btn"
+          @click="$router.push(`/auctions/${product.id}`)"
+        >
+          <span>Участвовать в аукционе</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from "vuex";
 import TheFilter from "@/components/Filter.vue";
 
 export default {
@@ -224,10 +231,55 @@ export default {
   components: {
     TheFilter,
   },
+  data() {
+    return {
+      search: null,
+      category: null,
+      sort: null,
+    };
+  },
+  computed: {
+    ...mapState(["auctions"]),
+    ...mapGetters(["isExistsFavourites"]),
+    getProducts() {
+      let filteredProducts = this.auctions;
+
+      // Filter by category
+      if (this.category) {
+        filteredProducts = filteredProducts.filter(
+          (product) => product.category === this.category
+        );
+      }
+
+      // Filter by search (case-insensitive)
+      if (this.search) {
+        const searchTerm = this.search.toLowerCase();
+        filteredProducts = filteredProducts.filter(
+          (product) =>
+            product.title.toLowerCase().includes(searchTerm) ||
+            product.description.toLowerCase().includes(searchTerm)
+        );
+      }
+
+      // Sorting
+      if (this.sort) {
+        if (this.sort === "price-asc") {
+          filteredProducts.sort((a, b) => a.price - b.price);
+        } else if (this.sort === "price-desc") {
+          filteredProducts.sort((a, b) => b.price - a.price);
+        } else if (this.sort === "newest") {
+          filteredProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+      }
+
+      return filteredProducts;
+    },
+  },
   methods: {
-    searchProducts() {},
-    changeCategory() {},
-    changeSort() {},
+    ...mapMutations(["toggleProductFavourites"]),
+    formatPrice(price) {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
   },
 };
 </script>
@@ -251,6 +303,7 @@ export default {
   overflow: auto;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   gap: rem(30);
 
   &::-webkit-scrollbar {
@@ -354,6 +407,7 @@ export default {
       height: 100%;
     }
 
+    &.active,
     &:hover {
       svg {
         color: #df5f61;
