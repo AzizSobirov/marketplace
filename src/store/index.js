@@ -29,6 +29,7 @@ export default new Vuex.Store({
         title: "Audi TT",
         description: "Lorem ipsum dolor",
         price: 1000000,
+        weight: 123,
       },
     ],
     favourites: [
@@ -44,11 +45,36 @@ export default new Vuex.Store({
         description: "Lorem ipsum dolor",
         price: 1000000,
         count: 1,
+        weight: 123,
         time: "168 д. 15 ч.",
       },
     ],
-    warehouse: [],
-    announcements: [],
+    warehouse: [
+      {
+        id: 3,
+        street: "Vinewood, Baker, Str 132",
+        standard_cover: product2,
+        own_cover: product2,
+        files: [],
+        title: "Audi TT",
+        description: "Lorem ipsum dolor",
+        price: 1000000,
+        distance: 10000,
+      },
+    ],
+    announcements: [
+      {
+        id: 4,
+        street: "Vinewood, Baker, Str 132",
+        standard_cover: product2,
+        own_cover: product2,
+        files: [],
+        title: "Audi TT",
+        description: "Lorem ipsum dolor",
+        price: 1000000,
+        distance: 10000,
+      },
+    ],
     history: [],
   },
   getters: {
@@ -63,23 +89,24 @@ export default new Vuex.Store({
         street: "Vinewood, Baker, Str 132",
         likes: 100,
         views: 100,
+        weight: 123,
         ...product,
       });
       console.log(state.auctions);
     },
-    removeProductFromAuctions(state, product) {
+    removeProductAuctions(state, product) {
       state.auctions = state.auctions.filter((item) => item.id !== product.id);
     },
 
     addProductToAnnouncements(state, product) {
-      state.auctions.push({
+      state.announcements.push({
         id: Math.floor(Math.random() * 1000),
         ...product,
       });
     },
-    removeProductFromAnnouncements(state, product) {
+    removeProductAnnouncements(state, id) {
       state.announcements = state.announcements.filter(
-        (item) => item.id !== product.id
+        (item) => item.id !== id
       );
     },
 
@@ -93,6 +120,7 @@ export default new Vuex.Store({
         state.favourites.push({
           ...product,
           count: 1,
+          weight: 123,
           time: "168 д. 15 ч.",
         });
       }

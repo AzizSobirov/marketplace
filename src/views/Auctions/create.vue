@@ -98,7 +98,7 @@
           </div>
 
           <div class="product__img">
-            <img :src="fileToURL(standard_cover)" alt="" />
+            <img src="@/assets/img/products/3.png" alt="" />
           </div>
 
           <div class="product__info">

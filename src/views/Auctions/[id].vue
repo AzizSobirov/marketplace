@@ -1,11 +1,15 @@
 <template>
   <div class="content">
-    <div class="wrapper">
+    <div class="wrapper" v-if="product">
       <div class="col">
         <div class="title">Информация о товаре</div>
 
         <div class="product">
-          <div class="product__favourite">
+          <div
+            class="product__favourite"
+            :class="{ active: isExistsFavourites }"
+            @click="toggleProductFavourites"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -25,13 +29,13 @@
           </div>
 
           <div class="product__img">
-            <img src="@/assets/img/products/3.png" alt="" />
+            <img :src="product.standard_cover" alt="" />
           </div>
 
           <div class="product__info">
             <div class="product__info-group">
               <div class="product__info-subtitle">Бизнес</div>
-              <div class="product__info-title">Магазин 24/7 #5</div>
+              <div class="product__info-title">{{ product.title }}</div>
             </div>
 
             <div class="product__info-btn">
@@ -92,7 +96,7 @@
               <div class="product__details-info">
                 <div class="product__details-title">Улица</div>
                 <div class="product__details-value">
-                  Vinewood, Baker, Str 132
+                  {{ product.street }}
                 </div>
               </div>
             </div>
@@ -119,7 +123,7 @@
                 <div class="product__details-title">Лайки и просмотры</div>
                 <div class="product__details-group">
                   <div class="product__like">
-                    <div class="product__like-count">100</div>
+                    <div class="product__like-count">{{ product.likes }}</div>
                     <div class="product__like-icon">
                       <svg
                         width="13"
@@ -148,7 +152,7 @@
                     </div>
                   </div>
                   <div class="product__like">
-                    <div class="product__like-count">100</div>
+                    <div class="product__like-count">{{ product.views }}</div>
                     <div class="product__like-icon">
                       <svg
                         width="13"
@@ -216,11 +220,15 @@
               </div>
               <div class="product__details-info">
                 <div class="product__details-title">Шаг ставки</div>
-                <div class="product__details-value">$ 300,000</div>
+                <div class="product__details-value">
+                  {{ formatPrice(300000) }} $
+                </div>
               </div>
               <div class="product__details-info">
                 <div class="product__details-title">Последняя ставка</div>
-                <div class="product__details-value">10,000,000 $</div>
+                <div class="product__details-value">
+                  {{ formatPrice(10000000) }} $
+                </div>
               </div>
             </div>
           </div>
@@ -402,7 +410,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import LineChart from "@/components/LineChart.vue";
 import avatar from "@/assets/img/avatar.png";
 
@@ -411,6 +419,7 @@ export default {
   components: { LineChart },
   data() {
     return {
+      product: null,
       modal: false,
       prices: [
         "1,000,000",
@@ -573,11 +582,28 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState(["auctions"]),
+    ...mapGetters(["isExistsFavourites"]),
+  },
   methods: {
+    ...mapMutations(["toggleProductFavourites"]),
+    formatPrice(price) {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
     handleSubmit() {
       this.modal = false;
     },
     sendMessage() {},
+  },
+  mounted() {
+    this.product = this.auctions.find(
+      (item) => item.id == this.$route.params.id
+    );
+
+    if (!this.product) {
+      this.$router.push("/auctions");
+    }
   },
 };
 </script>

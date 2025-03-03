@@ -1,11 +1,15 @@
 <template>
   <div class="content">
-    <div class="wrapper">
+    <div class="wrapper" v-if="product">
       <div class="col">
         <div class="title">Информация о товаре</div>
 
         <div class="product">
-          <div class="product__favourite">
+          <div
+            class="product__favourite"
+            :class="{ active: isExistsFavourites(product.id) }"
+            @click="toggleProductFavourites(product)"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -25,16 +29,13 @@
           </div>
 
           <div class="product__img">
-            <img src="@/assets/img/products/1.png" alt="" />
+            <img :src="product.standard_cover" alt="" />
           </div>
 
           <div class="product__info">
             <div class="product__info-category">Категория товара</div>
-            <div class="product__info-title">Хранилище данных - 16 ТБ</div>
-            <p class="product__info-desc">
-              На этом жестком диске хранятся зашифрованные данные, которые Вы
-              можете передать или продать
-            </p>
+            <div class="product__info-title">{{ product.title }}</div>
+            <p class="product__info-desc" v-html="product.description"></p>
           </div>
 
           <div class="product__additional">
@@ -56,7 +57,7 @@
                   />
                 </svg>
               </div>
-              <div class="product__count-value">1 шт.</div>
+              <div class="product__count-value">{{ product.count }} шт.</div>
             </div>
             <div class="product__weight">
               <div class="product__weight-icon">
@@ -83,7 +84,7 @@
                   />
                 </svg>
               </div>
-              <div class="product__count-value">123 кг.</div>
+              <div class="product__count-value">{{ product.weight }} кг.</div>
             </div>
           </div>
 
@@ -107,7 +108,7 @@
                   />
                 </svg>
               </div>
-              <span>200 300 3333 333</span>
+              <span>{{ formatPrice(product.price) }}</span>
             </div>
           </div>
 
@@ -295,6 +296,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from "vuex";
 import LineChart from "@/components/LineChart.vue";
 import { Slider } from "@/components/ui";
 
@@ -303,6 +305,7 @@ export default {
   components: { LineChart, Slider },
   data() {
     return {
+      product: null,
       modal: false,
       amount: null,
       chart: {
@@ -382,10 +385,27 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState(["favourites"]),
+    ...mapGetters(["isExistsFavourites"]),
+  },
   methods: {
+    ...mapMutations(["toggleProductFavourites"]),
+    formatPrice(price) {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
     handleSubmit() {
       this.modal = false;
     },
+  },
+  mounted() {
+    this.product = this.favourites.find(
+      (item) => item.id == this.$route.params.id
+    );
+
+    if (!this.product) {
+      this.$router.push("/favourites");
+    }
   },
 };
 </script>
@@ -458,7 +478,8 @@ export default {
       height: 100%;
     }
 
-    &:hover {
+    &:hover,
+    &.active {
       svg {
         color: #df5f61;
 

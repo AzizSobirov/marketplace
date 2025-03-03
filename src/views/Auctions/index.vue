@@ -1,12 +1,13 @@
 <template>
   <div class="content">
     <TheFilter
+      v-if="auctions.length"
       @search="(value) => (search = value)"
       @changeCategory="(value) => (category = value)"
       @changeSort="(value) => (sort = value)"
     />
 
-    <div class="products">
+    <div v-if="getProducts.length" class="products">
       <div v-for="product in getProducts" :key="product.id" class="product">
         <div class="product__status">
           <div class="product__status-icon">
@@ -219,17 +220,21 @@
         </div>
       </div>
     </div>
+
+    <TheEmpty v-else />
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters, mapMutations } from "vuex";
 import TheFilter from "@/components/Filter.vue";
+import TheEmpty from "@/components/Empty.vue";
 
 export default {
   name: "Warehouse",
   components: {
     TheFilter,
+    TheEmpty,
   },
   data() {
     return {

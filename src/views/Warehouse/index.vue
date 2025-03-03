@@ -1,13 +1,14 @@
 <template>
   <div class="content">
     <TheFilter
-      @search="searchProducts"
-      @changeCategory="changeCategory"
-      @changeSort="changeSort"
+      v-if="warehouse.length"
+      @search="(value) => (search = value)"
+      @changeCategory="(value) => (category = value)"
+      @changeSort="(value) => (sort = value)"
     />
 
-    <div class="products">
-      <div v-for="i in 15" :key="i" class="product">
+    <div v-if="getProducts.length" class="products">
+      <div v-for="product in getProducts" :key="product.id" class="product">
         <div class="product__status">
           <span>На складе</span>
         </div>
@@ -18,7 +19,7 @@
 
         <div class="product__info">
           <div class="product__info-category">Категория товара</div>
-          <div class="product__info-title">Хранилище данных - 16 ТБ</div>
+          <div class="product__info-title">{{ product.title }}</div>
         </div>
 
         <div class="product__additional">
@@ -37,10 +38,16 @@
                 />
               </svg>
             </div>
-            <div class="product__distance-value">10 000 км.</div>
+            <div class="product__distance-value">
+              {{ formatPrice(product.distance) }} км.
+            </div>
           </div>
 
-          <div class="product__favourite">
+          <div
+            class="product__favourite"
+            :class="{ active: isExistsFavourites(product.id) }"
+            @click="toggleProductFavourites(product)"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -63,21 +70,71 @@
         <div class="product__btn"><span>Выгрузить со склада</span></div>
       </div>
     </div>
+
+    <TheEmpty v-else />
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from "vuex";
 import TheFilter from "@/components/Filter.vue";
+import TheEmpty from "@/components/Empty.vue";
 
 export default {
   name: "Warehouse",
   components: {
     TheFilter,
+    TheEmpty,
+  },
+  data() {
+    return {
+      category: null,
+      search: null,
+      sort: null,
+    };
+  },
+  computed: {
+    ...mapState(["warehouse"]),
+    ...mapGetters(["isExistsFavourites"]),
+    getProducts() {
+      let filteredProducts = this.warehouse;
+
+      // Filter by category
+      if (this.category) {
+        filteredProducts = filteredProducts.filter(
+          (product) => product.category === this.category
+        );
+      }
+
+      // Filter by search (case-insensitive)
+      if (this.search) {
+        const searchTerm = this.search.toLowerCase();
+        filteredProducts = filteredProducts.filter(
+          (product) =>
+            product.title.toLowerCase().includes(searchTerm) ||
+            product.description.toLowerCase().includes(searchTerm)
+        );
+      }
+
+      // Sorting
+      if (this.sort) {
+        if (this.sort === "price-asc") {
+          filteredProducts.sort((a, b) => a.price - b.price);
+        } else if (this.sort === "price-desc") {
+          filteredProducts.sort((a, b) => b.price - a.price);
+        } else if (this.sort === "newest") {
+          filteredProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+      }
+
+      return filteredProducts;
+    },
   },
   methods: {
-    searchProducts() {},
-    changeCategory() {},
-    changeSort() {},
+    ...mapMutations(["toggleProductFavourites"]),
+    formatPrice(price) {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
   },
 };
 </script>
@@ -101,6 +158,7 @@ export default {
   overflow: auto;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   gap: rem(30);
 
   &::-webkit-scrollbar {
@@ -227,7 +285,8 @@ export default {
       height: 100%;
     }
 
-    &:hover {
+    &:hover,
+    &.active {
       svg {
         color: #df5f61;
 

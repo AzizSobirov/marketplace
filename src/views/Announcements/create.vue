@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div class="wrapper">
+    <form class="wrapper" @submit.prevent="handleSubmit">
       <div class="col">
         <div class="group">
           <div class="item">
@@ -44,7 +44,7 @@
         <div class="item">
           <div class="title">Описание</div>
           <div class="textarea">
-            <textarea placeholder="Введите текст..."></textarea>
+            <textarea placeholder="Введите текст..." required></textarea>
           </div>
         </div>
 
@@ -52,7 +52,7 @@
           <div class="title">Стоимость продажи</div>
 
           <div class="input">
-            <input type="text" placeholder="Введите текст..." />
+            <input type="text" placeholder="Введите текст..." required />
             <span>Мин. стоимость по рынку: $ 5,000,000</span>
           </div>
         </div>
@@ -275,7 +275,7 @@
             </div>
           </div>
 
-          <div class="details__btn">
+          <button type="submit" class="details__btn">
             <div class="details__btn-icon">
               <svg
                 width="14"
@@ -294,14 +294,15 @@
               </svg>
             </div>
             <span>Опубликовать объявление</span>
-          </div>
+          </button>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import FileUpload from "@/components/FileUpload.vue";
 
 export default {
@@ -309,12 +310,36 @@ export default {
   components: { FileUpload },
   data() {
     return {
+      standard_cover: null,
+      own_cover: null,
+      files: [],
+      description: null,
+      price: null,
       type: "day",
     };
   },
   methods: {
-    fileChange(file) {
-      console.log(file);
+    ...mapMutations(["addProductToAnnouncements"]),
+    fileToURL(file) {
+      if (!file) return null;
+      return URL.createObjectURL(file);
+    },
+    fileChange(file, index) {
+      const fileExist = this.files.find((f) => f.id === index);
+      if (!fileExist) this.files.push({ id: index, file });
+      this.files[index] = { id: index, file: this.fileToURL(file) };
+    },
+
+    handleSubmit() {
+      this.addProductToAnnouncements({
+        standard_cover: this.fileToURL(this.standard_cover),
+        own_cover: this.fileToURL(this.own_cover),
+        files: this.files,
+        title: "something",
+        description: this.description,
+        price: this.price,
+      });
+      this.$router.push("/announcements");
     },
   },
 };
