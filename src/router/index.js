@@ -16,7 +16,7 @@ const routes = [
         },
         component: () => import("../views/Empty.vue"),
       },
-    
+
       {
         path: "favourites",
         name: "favourites",
@@ -74,7 +74,7 @@ const routes = [
         },
         component: () => import("../views/History.vue"),
       },
-     
+
       {
         path: "auctions",
         name: "auctions",
@@ -93,6 +93,7 @@ const routes = [
         },
         component: () => import("../views/Auctions/create.vue"),
       },
+
       {
         path: "auctions/:id",
         name: "auctions-info",
@@ -101,6 +102,15 @@ const routes = [
           desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
         },
         component: () => import("../views/Auctions/[id].vue"),
+      },
+      {
+        path: "select",
+        name: "select",
+        meta: {
+          title: "Аукционы",
+          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
+        },
+        component: () => import("../views/Select.vue"),
       },
     ],
   },

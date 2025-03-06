@@ -76,6 +76,31 @@ export default new Vuex.Store({
       },
     ],
     history: [],
+
+    items: [
+      {
+        id: 1,
+        street: "Vinewood, Baker, Str 132",
+        likes: 100,
+        views: 100,
+        standard_cover: product3,
+        own_cover: product3,
+        files: [],
+        title: "Audi TT",
+        description: "Lorem ipsum dolor",
+        price: 1000000,
+      },
+      {
+        id: 3,
+        street: "Vinewood, Baker, Str 132",
+        standard_cover: product2,
+        own_cover: product2,
+        files: [],
+        title: "Audi TT",
+        description: "Lorem ipsum dolor",
+        price: 1000000,
+      },
+    ],
   },
   getters: {
     isExistsFavourites: (state) => (id) => {

@@ -147,7 +147,7 @@
       </div>
     </div>
 
-    <router-link :to="`${this.$route.path}/create`" class="filter__btn">
+    <div class="filter__btn" @click="$router.push('/select')">
       <svg
         width="10"
         height="10"
@@ -165,7 +165,7 @@
       </svg>
 
       <span> Создать</span>
-    </router-link>
+    </div>
   </div>
 </template>
 
