@@ -15,6 +15,46 @@
           <div class="product__info-title">Хранилище данных - 16 ТБ</div>
         </div>
 
+        <div class="product__details">
+          <div class="product__details-item">
+            <div class="product__details-icon">
+              <svg
+                width="19"
+                height="19"
+                viewBox="0 0 19 19"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_0_2222)">
+                  <path
+                    d="M13.2398 6.38135C13.0906 5.95778 12.8179 5.58857 12.457 5.32125C12.0962 5.05393 11.6635 4.90072 11.2148 4.88135H8.21484C7.61811 4.88135 7.04581 5.1184 6.62385 5.54036C6.2019 5.96231 5.96484 6.53461 5.96484 7.13135C5.96484 7.72808 6.2019 8.30038 6.62385 8.72234C7.04581 9.1443 7.61811 9.38135 8.21484 9.38135H11.2148C11.8116 9.38135 12.3839 9.6184 12.8058 10.0404C13.2278 10.4623 13.4648 11.0346 13.4648 11.6313C13.4648 12.2281 13.2278 12.8004 12.8058 13.2223C12.3839 13.6443 11.8116 13.8813 11.2148 13.8813H8.21484C7.76615 13.862 7.33353 13.7088 6.97264 13.4414C6.61176 13.1741 6.33913 12.8049 6.18984 12.3813M9.71484 2.63135V4.88135M9.71484 13.8813V16.1313"
+                    stroke="#5D6374"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_0_2222">
+                    <rect
+                      width="18"
+                      height="18"
+                      fill="white"
+                      transform="translate(0.714844 0.381348)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <div class="product__details-info">
+              <div class="product__details-title">Последняя ставка</div>
+              <div class="product__details-value">
+                {{ formatPrice(10000) }} $
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="product__date">
           <div class="product__date-icon">
             <svg
@@ -91,6 +131,11 @@
 <script>
 export default {
   name: "Hisory",
+  methods: {
+    formatPrice(price) {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
+  },
 };
 </script>
 
@@ -195,6 +240,57 @@ export default {
       font-weight: 600;
       font-size: rem(14);
       color: #fff;
+    }
+  }
+
+  &__details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: rem(28);
+
+    &-item {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: rem(10);
+    }
+
+    &-icon {
+      width: rem(20);
+      height: rem(20);
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: rem(6);
+    }
+
+    &-title {
+      font-weight: 500;
+      font-size: rem(12);
+      color: #5d6374;
+    }
+
+    &-value {
+      font-weight: 600;
+      font-size: rem(14);
+      color: #fff;
+    }
+
+    &-group {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: rem(10);
     }
   }
 

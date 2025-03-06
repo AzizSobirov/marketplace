@@ -206,7 +206,7 @@
         </div>
       </div>
 
-      <div class="col">
+      <div class="col col-chart">
         <div class="title">Медиана цены</div>
         <LineChart :data="chart.data" :options="chart.options" />
       </div>
@@ -415,21 +415,21 @@ export default {
 
 .content {
   padding-bottom: rem(30);
-  min-height: calc(100vh - rem(120));
-  overflow: auto;
+  // min-height: calc(100vh - rem(120));
+  // overflow: auto;
   width: 100%;
 
-  &::-webkit-scrollbar {
-    width: 0;
-  }
+  // &::-webkit-scrollbar {
+  //   width: 0;
+  // }
 }
 
 .wrapper {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: flex-start;
-  gap: rem(40);
+  gap: rem(30) rem(40);
 }
 
 .col {
@@ -445,6 +445,10 @@ export default {
   &:nth-child(2) {
     flex-basis: rem(1000);
   }
+
+  &.col-chart {
+    gap: rem(10);
+  }
 }
 
 .title {
@@ -457,6 +461,7 @@ export default {
   position: relative;
   padding: rem(24);
   width: 100%;
+  height: 100%;
   background: var(--background);
   border-radius: rem(12);
   display: flex;

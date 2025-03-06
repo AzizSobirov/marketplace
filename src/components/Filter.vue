@@ -26,86 +26,124 @@
     </div>
 
     <div class="filter__select">
-      <div class="filter__select-icon">
-        <svg
-          width="15"
-          height="16"
-          viewBox="0 0 15 16"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1.16675 1.66663H13.8334V3.38613C13.8333 3.80602 13.6665 4.20868 13.3695 4.50554L9.87508 7.99996V13.5416L5.12508 15.125V8.39579L1.57841 4.49446C1.31356 4.20307 1.16679 3.82344 1.16675 3.42967V1.66663Z"
-            stroke="#DCDCDC"
-            stroke-width="1.58333"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+      <div class="filter__select-trigger" @click="toggleCategories">
+        <div class="filter__select-icon">
+          <svg
+            width="15"
+            height="16"
+            viewBox="0 0 15 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1.16675 1.66663H13.8334V3.38613C13.8333 3.80602 13.6665 4.20868 13.3695 4.50554L9.87508 7.99996V13.5416L5.12508 15.125V8.39579L1.57841 4.49446C1.31356 4.20307 1.16679 3.82344 1.16675 3.42967V1.66663Z"
+              stroke="#DCDCDC"
+              stroke-width="1.58333"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <div class="filter__select-value" :class="{ active: category }">
+          {{ category || "Выбор категории" }}
+        </div>
+
+        <div class="filter__select-arrow" :class="{ active: categoryOptions }">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 9L12 15L18 9"
+              stroke="#4F5666"
+              stroke-width="1.42"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
       </div>
-      <select @change="$emit('changeCategory', $event.target.value)">
-        <option value="">Выбор категории</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-      </select>
-      <div class="filter__select-arrow">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+
+      <div v-if="categoryOptions" class="filter__select-options">
+        <div
+          v-for="item in categories"
+          :key="item"
+          class="filter__select-option"
+          :class="{ active: item === category }"
+          @click="
+            () => {
+              category = item;
+              $emit('changeCategory', item);
+            }
+          "
         >
-          <path
-            d="M6 9L12 15L18 9"
-            stroke="#4F5666"
-            stroke-width="1.42"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+          {{ item }}
+        </div>
       </div>
     </div>
 
     <div class="filter__select">
-      <div class="filter__select-icon">
-        <svg
-          width="15"
-          height="16"
-          viewBox="0 0 15 16"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1.16675 1.66663H13.8334V3.38613C13.8333 3.80602 13.6665 4.20868 13.3695 4.50554L9.87508 7.99996V13.5416L5.12508 15.125V8.39579L1.57841 4.49446C1.31356 4.20307 1.16679 3.82344 1.16675 3.42967V1.66663Z"
-            stroke="#DCDCDC"
-            stroke-width="1.58333"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+      <div class="filter__select-trigger" @click="toggleSort">
+        <div class="filter__select-icon">
+          <svg
+            width="15"
+            height="16"
+            viewBox="0 0 15 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1.16675 1.66663H13.8334V3.38613C13.8333 3.80602 13.6665 4.20868 13.3695 4.50554L9.87508 7.99996V13.5416L5.12508 15.125V8.39579L1.57841 4.49446C1.31356 4.20307 1.16679 3.82344 1.16675 3.42967V1.66663Z"
+              stroke="#DCDCDC"
+              stroke-width="1.58333"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <div class="filter__select-value" :class="{ active: sort }">
+          {{ sort || "Сортировать" }}
+        </div>
+
+        <div class="filter__select-arrow" :class="{ active: sortOptions }">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 9L12 15L18 9"
+              stroke="#4F5666"
+              stroke-width="1.42"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
       </div>
-      <select @change="$emit('changeSort', $event.target.value)">
-        <option value="">Сортировать</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-      </select>
-      <div class="filter__select-arrow">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+
+      <div v-if="sortOptions" class="filter__select-options">
+        <div
+          v-for="item in sorts"
+          :key="item"
+          class="filter__select-option"
+          :class="{ active: item === sort }"
+          @click="
+            () => {
+              sort = item;
+              $emit('changeSort', item);
+            }
+          "
         >
-          <path
-            d="M6 9L12 15L18 9"
-            stroke="#4F5666"
-            stroke-width="1.42"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+          {{ item }}
+        </div>
       </div>
     </div>
 
@@ -134,6 +172,32 @@
 <script>
 export default {
   name: "FilterProducts",
+  data() {
+    return {
+      category: null,
+      categoryOptions: false,
+      categories: ["Category 1", "Category 2", "Category 3"],
+      sort: null,
+      sortOptions: false,
+      sorts: ["По цене", "По дате"],
+    };
+  },
+  methods: {
+    toggleCategories() {
+      this.categoryOptions = !this.categoryOptions;
+    },
+    toggleSort() {
+      this.sortOptions = !this.sortOptions;
+    },
+  },
+  mounted() {
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".filter__select")) {
+        this.categoryOptions = false;
+        this.sortOptions = false;
+      }
+    });
+  },
 };
 </script>
 
@@ -149,6 +213,7 @@ export default {
 
   &__input,
   &__select {
+    position: relative;
     padding: rem(14) rem(18);
     background: var(--background);
     border-radius: rem(6);
@@ -157,7 +222,8 @@ export default {
     justify-content: flex-start;
     gap: rem(10);
 
-    &-icon {
+    &-icon,
+    &-arrow {
       width: rem(20);
       height: rem(20);
 
@@ -173,6 +239,7 @@ export default {
 
     input {
       color: #fff;
+      width: 100%;
 
       &::placeholder {
         color: #3f4450;
@@ -181,15 +248,61 @@ export default {
   }
 
   &__select {
-    color: #3f4450;
+    cursor: pointer;
 
-    select {
-      width: fit-content;
-      appearance: none;
+    &-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: rem(10);
     }
 
-    option {
-      color: #000;
+    &-value {
+      color: #3f4450;
+      font-size: rem(15);
+      font-weight: 500;
+
+      &.active {
+        color: #fff;
+      }
+    }
+
+    &-options {
+      position: absolute;
+      top: calc(100% + rem(2));
+      left: 0;
+      z-index: 2;
+      width: 100%;
+      background: var(--background);
+      border-radius: rem(6);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      overflow: hidden;
+    }
+
+    &-option {
+      padding: rem(18);
+      width: 100%;
+      color: #fff;
+      font-size: rem(14);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-ease);
+
+      &:hover,
+      &.active {
+        background: #0a0c12;
+      }
+    }
+
+    &-arrow {
+      transition: var(--transition-ease);
+
+      &.active {
+        transform: rotate(180deg);
+      }
     }
   }
 

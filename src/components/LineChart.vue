@@ -47,6 +47,6 @@ export default {
 
 .chart {
   width: 100%;
-  max-height: rem(300) !important;
+  max-height: rem(175) !important;
 }
 </style>

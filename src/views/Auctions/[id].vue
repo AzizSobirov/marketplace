@@ -298,6 +298,7 @@
         </div>
       </div>
 
+      <!-- Disable if chat doesnt' need -->
       <div class="col col-chat">
         <div class="title">Чат</div>
         <div class="chat">
@@ -323,7 +324,6 @@
         </div>
       </div>
 
-      <!-- Disable if needed -->
       <div class="col col-chart">
         <div class="title">Медиана цены</div>
         <LineChart :data="chart.data" :options="chart.options" />
@@ -552,33 +552,6 @@ export default {
           },
           text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ",
         },
-        {
-          id: 2,
-          user: {
-            id: 2,
-            name: "Source Insensitive",
-            avatar: avatar,
-          },
-          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ",
-        },
-        {
-          id: 1,
-          user: {
-            id: 1,
-            name: "Source Insensitive",
-            avatar: avatar,
-          },
-          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ",
-        },
-        {
-          id: 2,
-          user: {
-            id: 2,
-            name: "Source Insensitive",
-            avatar: avatar,
-          },
-          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ",
-        },
       ],
     };
   },
@@ -612,14 +585,14 @@ export default {
 @use "@/assets/scss/_mixins.scss" as *;
 
 .content {
-  padding-bottom: rem(30);
-  min-height: calc(100vh - rem(120));
-  overflow: auto;
+  // padding-bottom: rem(30);
+  // min-height: calc(100vh - rem(120));
+  // overflow: auto;
   width: 100%;
 
-  &::-webkit-scrollbar {
-    width: 0;
-  }
+  // &::-webkit-scrollbar {
+  //   width: 0;
+  // }
 }
 
 .wrapper {
@@ -627,7 +600,7 @@ export default {
   flex-wrap: wrap;
   align-items: stretch;
   justify-content: flex-start;
-  gap: rem(40);
+  gap: rem(20) rem(40);
 }
 
 .col {
@@ -651,6 +624,7 @@ export default {
 
   &-chart {
     flex-basis: 100%;
+    gap: rem(10);
   }
 }
 
@@ -662,14 +636,14 @@ export default {
 
 .product {
   position: relative;
-  padding: rem(24);
+  padding: rem(15);
   width: 100%;
   background: var(--background);
   border-radius: rem(12);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: rem(24);
+  gap: rem(20);
 
   &__favourite {
     position: absolute;
@@ -698,9 +672,9 @@ export default {
 
   &__img {
     position: relative;
-    margin-top: rem(-24);
-    margin-left: rem(-24);
-    width: calc(100% + rem(48));
+    margin-top: rem(-15);
+    margin-left: rem(-15);
+    width: calc(100% + rem(30));
     min-height: rem(205);
     height: rem(205);
     background: #15171e;
@@ -900,11 +874,11 @@ export default {
 .broadcast {
   height: 100%;
   width: 100%;
-  overflow: auto;
+  // overflow: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: rem(20);
+  gap: rem(18);
 
   &::-webkit-scrollbar {
     width: 0;
@@ -970,9 +944,8 @@ export default {
   gap: rem(35);
 
   &__messages {
-    height: rem(580);
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -1050,6 +1023,7 @@ export default {
   }
 
   &__form {
+    margin-top: auto;
     padding: rem(10) rem(14);
     width: 100%;
     height: rem(45);
