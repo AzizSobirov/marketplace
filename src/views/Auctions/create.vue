@@ -6,6 +6,7 @@
           <div class="item">
             <div class="subtitle">Стандартная обложка</div>
             <FileUpload
+              :preview="item ? item.standard_cover : null"
               @change="
                 (file) => {
                   standard_cover = file;
@@ -77,7 +78,7 @@
       <div class="col">
         <div class="title">Предпросмотр объявления</div>
 
-        <div class="product">
+        <div class="product" v-if="item">
           <div class="product__favourite">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -98,17 +99,17 @@
           </div>
 
           <div class="product__img">
-            <img src="@/assets/img/products/3.png" alt="" />
+            <img :src="item.standard_cover" alt="" />
           </div>
 
           <div class="product__info">
             <div class="product__info-category">Категория товара</div>
-            <div class="product__info-title">{{ title }}</div>
+            <div class="product__info-title">{{ item.title }}</div>
           </div>
 
           <div class="product__info">
             <div class="product__info-category">
-              {{ description }}
+              {{ item.description }}
             </div>
           </div>
 
@@ -182,7 +183,7 @@
                   />
                 </svg>
               </div>
-              <span>{{ price }}</span>
+              <span>{{ item.price }}</span>
             </div>
           </div>
 
@@ -254,6 +255,7 @@ export default {
   components: { FileUpload },
   data() {
     return {
+      item: null,
       standard_cover: null,
       own_cover: null,
       files: [],
@@ -262,10 +264,14 @@ export default {
       price: null,
     };
   },
+  computed: {
+    ...mapState(["items"]),
+  },
   methods: {
     ...mapMutations(["addProductToAuctions"]),
     fileToURL(file) {
       if (!file) return null;
+      if (!file.includes("blob")) return file;
       return URL.createObjectURL(file);
     },
     fileChange(file, index) {
@@ -285,6 +291,16 @@ export default {
       });
       this.$router.push("/auctions");
     },
+  },
+  mounted() {
+    const item = this.items.find((item) => item.id == this.$route.params.id);
+
+    if (item) {
+      this.item = item;
+      this.standard_cover = item.standard_cover;
+    } else {
+      this.$router.push("/auctions");
+    }
   },
 };
 </script>

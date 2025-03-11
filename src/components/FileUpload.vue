@@ -1,7 +1,7 @@
 <template>
   <div
     class="file-upload"
-    :class="{ 'has-image': previewImage, sm: size === 'sm' }"
+    :class="{ 'has-image': previewImage || preview, sm: size === 'sm' }"
     @click="triggerFileInput"
   >
     <input
@@ -11,8 +11,8 @@
       accept="image/*"
       hidden
     />
-    <div v-if="previewImage" class="image-preview">
-      <img :src="previewImage" alt="Preview" />
+    <div v-if="previewImage || preview" class="image-preview">
+      <img :src="previewImage || preview" alt="Preview" />
     </div>
     <div v-else class="upload-placeholder">
       <svg
@@ -40,6 +40,10 @@
 export default {
   name: "FileUpload",
   props: {
+    preview: {
+      type: String,
+      default: null,
+    },
     size: {
       type: String,
       default: "medium",

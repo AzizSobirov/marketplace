@@ -85,7 +85,7 @@ const routes = [
         component: () => import("../views/Auctions/index.vue"),
       },
       {
-        path: "auctions/create",
+        path: "auctions/create/:id",
         name: "auctions-create",
         meta: {
           title: "Аукционы",
@@ -110,7 +110,25 @@ const routes = [
           title: "Аукционы",
           desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
         },
-        component: () => import("../views/Select.vue"),
+        component: () => import("../views/Select/index.vue"),
+      },
+      {
+        path: "select/cars",
+        name: "select-cars",
+        meta: {
+          title: "Аукционы",
+          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
+        },
+        component: () => import("../views/Select/cars.vue"),
+      },
+      {
+        path: "select/all",
+        name: "select-all",
+        meta: {
+          title: "Аукционы",
+          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
+        },
+        component: () => import("../views/Select/all.vue"),
       },
     ],
   },

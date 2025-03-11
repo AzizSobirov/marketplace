@@ -3,50 +3,11 @@
     <div class="back-btn" @click="$router.back()"><- Назад</div>
 
     <div class="products">
-      <div class="product" @click="$router.push(`/auctions/create`)">
-        <div class="product__img">
-          <img src="@/assets/img/products/2.png" alt="" />
-        </div>
-
-        <div class="product__info">
-          <div class="product__info-title">Сдать транспорт в аренду</div>
-          <div class="product__info-category">Услуги и прочее</div>
-        </div>
-
-        <div class="product__status">Доступно</div>
-      </div>
-
-      <div class="product" @click="$router.push(`/announcements/create`)">
-        <div class="product__img">
-          <img src="@/assets/img/products/2.png" alt="" />
-        </div>
-
-        <div class="product__info">
-          <div class="product__info-title">Создать объявление</div>
-          <div class="product__info-category">Услуги и прочее</div>
-        </div>
-
-        <div class="product__status">Доступно</div>
-      </div>
-
-      <div class="product" @click="$router.push(`/auctions/create`)">
-        <div class="product__img">
-          <img src="@/assets/img/products/2.png" alt="" />
-        </div>
-
-        <div class="product__info">
-          <div class="product__info-title">Выставить на аукцион</div>
-          <div class="product__info-category">Услуги и прочее</div>
-        </div>
-
-        <div class="product__status">Доступно</div>
-      </div>
-
       <div
-        v-for="product in items"
+        v-for="product in getItems"
         :key="product.id"
         class="product"
-        @click="$router.push(`/auctions/create`)"
+        @click="$router.push(`/auctions/create/${product.id}`)"
       >
         <div class="product__img">
           <img :src="product.standard_cover" alt="" />
@@ -67,9 +28,12 @@
 import { mapState } from "vuex";
 
 export default {
-  name: "SelectItem",
+  name: "SelectCars",
   computed: {
     ...mapState(["items"]),
+    getItems() {
+      return this.items;
+    },
   },
 };
 </script>
